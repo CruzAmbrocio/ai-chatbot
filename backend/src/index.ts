@@ -1,5 +1,5 @@
 import app from "./app";
-import { connectToDatabase } from "./config/db/connection";
+import { connectToDatabase } from "./db/connection";
 
 connectToDatabase().then(()=>{
   app.set("port", process.env.PORT);
