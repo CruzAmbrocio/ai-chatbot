@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { getAllUsers, userSignup } from "../controllers/user-controller";
+import { getAllUsers, userLogin, userSignup } from "../controllers/user-controller";
+import { loginValidator, signupValidator, validate } from "../utilities/validators";
 
 const userRoutes = Router();
 
 userRoutes.get("/", getAllUsers);
-userRoutes.post("/signup", userSignup)
+userRoutes.post("/signup", validate(signupValidator), userSignup);
 
 export default userRoutes;

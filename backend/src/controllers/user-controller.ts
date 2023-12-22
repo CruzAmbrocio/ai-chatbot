@@ -24,6 +24,23 @@ export const userSignup = async (
   try {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new Users({ name, email, password:hashedPassword });
+    console.log(JSON.stringify(user))
+    await user.save();
+    return res.status(201).json({ message: "OK", id: user._id.toString() });
+  } catch (error: any) {
+    return res.status(200).json({ message: "ERROR", cause: error.message });
+  }
+};
+
+export const userLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = new Users({ name, email, hashedPassword });
     await user.save();
     return res.status(200).json({ message: "OK", id: user._id.toString() });
