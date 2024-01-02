@@ -1,13 +1,24 @@
 import { Box, Button, Typography } from "@mui/material";
 import CustomizeInput from "../components/shared/CustomizeInput";
 import { IoIosLogIn } from "react-icons/io";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const onSubmitHandle = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandle = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const auth = useAuth();
     const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    try {
+      toast.loading("Signing in", { id: "login" });
+      await auth?.login(email, password);
+      toast.success("signed in successfully", { id: "login" });
+    } catch (error) {
+      console.log(error);
+      toast.error("signing in failed", { id: "login" });
+    }
   };
   return (
     <Box width={"100%"} height={"100%"} display="flex" flex={1}>
