@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { getAllUsers, userLogin, userSignup, verifyUser } from "../controllers/user-controller";
+import {
+  getAllUsers,
+  userLogin,
+  userLogout,
+  userSignup,
+  verifyUser,
+} from "../controllers/user-controller";
 import { loginValidator, signupValidator, validate } from "../utilities/validators";
 import { verifyToken } from "../utilities/token-manager";
 
@@ -9,5 +15,6 @@ userRoutes.get("/", getAllUsers);
 userRoutes.post("/signup", validate(signupValidator), userSignup);
 userRoutes.post("/login", validate(loginValidator), userLogin);
 userRoutes.get("/auth-status", verifyToken, verifyUser);
+userRoutes.get("/logout", verifyToken, userLogout);
 
 export default userRoutes;
